@@ -1,61 +1,108 @@
 # Trabalho-AI-Bruno---2025-1
-Disponilização recursos experimentais do Trabalho da disciplina Inteligencia Artificial (FACOM/UFMS) - 1 semestre 2025
+Recursos experimentais do Trabalho da disciplina Inteligência Artificial (FACOM/UFMS) - 1º semestre 2025
 
 Olá! Sou o Rodrigo Kbessa no meu primeiro projeto aqui! Espero que se divirtam!
 
-Tutorial: CVNN vs MLP no Plano Complexo
+## Tutorial: CVNN vs MLP no Plano Complexo
 
-Vou tentar mostrar como instalar o Ubuntu, configurar o ambiente Python/Jupyter, e executar redes neurais reais (MLP) e complexas (CVNN) para classificar pontos no plano complexo.
+Este tutorial mostra como instalar o Ubuntu, configurar o ambiente Python/Jupyter e executar redes neurais reais (MLP) e complexas (CVNN) para classificar pontos no plano complexo.
 
-Sumário
+### Sumário
 
-1. Instalação do Ubuntu
-2. Instalação do Jupyter Notebook e dependências
-3. Execução dos códigos
-   - Dataset sintético e visualização
-   - MLP real rasa
-   - CVNN rasa
-   - Fronteira de decisão CVNN rasa
-   - MLP real rasa (benchmark)
-   - Fronteira de decisão MLP real rasa
-   - CVNN profunda
-   - MLP profunda
-   - Comparação final em tabela (opcional)
+1. [Instalação do Ubuntu](#instalação-do-ubuntu)
+2. [Instalação do Jupyter Notebook e dependências](#instalação-do-jupyter-notebook-e-dependências)
+3. [Orientações adicionais](#orientações-adicionais)
+4. [Execução dos códigos](#execução-dos-códigos)
+   - [Dataset sintético e visualização](#dataset-sintético-e-visualização)
+   - [MLP real rasa](#mlp-real-rasa)
+   - [CVNN rasa](#cvnn-rasa)
+   - [Fronteira de decisão CVNN rasa](#fronteira-de-decisão-cvnn-rasa)
+   - [MLP real rasa (benchmark)](#mlp-real-rasa-benchmark)
+   - [Fronteira de decisão MLP real rasa](#fronteira-de-decisão-mlp-real-rasa)
+   - [CVNN profunda](#cvnn-profunda)
+   - [MLP profunda](#mlp-profunda)
+   - [Comparação final em tabela](#comparação-final-em-tabela)
 
-1. Instalação do Ubuntu
+### Instalação do Ubuntu
 
-- Baixe o Ubuntu em ubuntu.com/download
-- Crie um pendrive bootável (Rufus no Windows, Startup Disk Creator no Linux)
-- Inicie o computador pelo pendrive e siga as instruções
+Para usuários de Linux ou aqueles que desejam instalar o Ubuntu diretamente:
 
-2. Instalação do Jupyter Notebook e dependências
+- Baixe a imagem ISO do Ubuntu em https://ubuntu.com/download.
+- Crie um pendrive bootável usando ferramentas como Rufus (no Windows) ou Startup Disk Creator (no Linux).
+- Inicie o computador a partir do pendrive e siga as instruções de instalação.
 
-Abra o terminal e digite
+**Alternativa para usuários de Windows: Usar o WSL (Subsistema do Windows para Linux)**
 
-```bash
+O WSL permite executar um ambiente Linux (como o Ubuntu) diretamente no Windows, sem necessidade de máquina virtual ou dual boot.
+
+1. Abra o PowerShell como administrador (clique com o botão direito no menu Iniciar e selecione "Windows PowerShell (Admin)").
+2. Execute:
+   ```
+   wsl --install
+   ```
+3. Reinicie o computador quando solicitado.
+4. Após reiniciar, a instalação do Ubuntu continuará automaticamente. Configure seu nome de usuário e senha do Linux.
+
+Para versões mais antigas do Windows que não suportam `wsl --install`, siga as instruções em https://learn.microsoft.com/en-us/windows/wsl/install-manual.
+
+Acesse o terminal do Ubuntu pelo menu Iniciar (procure por "Ubuntu") ou executando `wsl` no prompt de comando.
+
+### Instalação do Jupyter Notebook e dependências
+
+No terminal do Ubuntu (ou WSL), execute:
+
+```
 sudo apt update
 sudo apt install python3 python3-pip python3-venv
-python3 -m venv venv
-source venv/bin/activate
-pip install notebook numpy matplotlib torch
-pip install pandas    # opcional, para visualizar tabelas
 ```
 
-Para abrir o Jupyter Notebook
+Crie um ambiente virtual:
 
-```bash
+```
+python3 -m venv venv
+```
+
+Ative o ambiente virtual:
+
+```
+source venv/bin/activate
+```
+
+Instale as dependências:
+
+```
+pip install notebook numpy matplotlib torch pandas
+```
+
+Para iniciar o Jupyter Notebook:
+
+```
 jupyter notebook
 ```
 
-Se não abrir o navegador automaticamente, copie o link do terminal e cole no navegador.
+Se o navegador não abrir automaticamente, copie o link exibido no terminal e cole no navegador.
 
-3. Execução dos códigos
+### Orientações adicionais
 
-Copie cada sessão abaixo para uma célula no Jupyter Notebook, na ordem.
+- **Abrir um console interativo no Jupyter**:
+  1. No interface do Jupyter Notebook, clique em "New" (canto superior direito).
+  2. Selecione "Console".
+  3. Escolha o kernel "Python 3".
+  Isso abre um console para executar comandos Python interativamente.
 
-Geração e visualização do dataset sintético
+- **Executar códigos**:
+  Copie cada bloco de código para uma célula separada no Jupyter Notebook e execute com `Shift + Enter`.
 
-```python
+- **Visualizar gráficos**:
+  Os gráficos são exibidos inline no notebook. Certifique-se de incluir `plt.show()` nos blocos de código.
+
+### Execução dos códigos
+
+Copie cada sessão abaixo para uma célula no Jupyter Notebook, na ordem indicada.
+
+#### Dataset sintético e visualização
+
+```
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -85,9 +132,9 @@ plt.grid(True)
 plt.show()
 ```
 
-MLP real rasa
+#### MLP real rasa
 
-```python
+```
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -133,7 +180,6 @@ for epoch in range(n_epochs):
         acc = (pred.float() == y_test).float().mean().item()
         accs.append(acc)
 
-import matplotlib.pyplot as plt
 plt.figure(figsize=(12,5))
 plt.subplot(1,2,1)
 plt.plot(losses)
@@ -148,9 +194,9 @@ plt.title("Curva de acurácia (MLP real rasa)")
 plt.show()
 ```
 
-CVNN rasa
+#### CVNN rasa
 
-```python
+```
 import numpy as np
 import torch
 import torch.nn as nn
@@ -252,9 +298,9 @@ plt.title("Curva de acurácia (CVNN rasa)")
 plt.show()
 ```
 
-Fronteira de decisão CVNN rasa
+#### Fronteira de decisão CVNN rasa
 
-```python
+```
 xx, yy = np.meshgrid(np.linspace(-1.6, 1.6, 300), np.linspace(-1.6, 1.6, 300))
 zz = xx + 1j * yy
 mesh_points = np.stack([zz.real.ravel(), zz.imag.ravel()], axis=1)
@@ -274,9 +320,9 @@ plt.title("Fronteira de decisão da CVNN rasa (dados de teste sobrepostos)")
 plt.show()
 ```
 
-MLP real rasa (benchmark para CVNN)
+#### MLP real rasa (benchmark)
 
-```python
+```
 import torch.nn.functional as F
 
 class MLP(nn.Module):
@@ -325,9 +371,9 @@ plt.title("Curva de acurácia (MLP real rasa)")
 plt.show()
 ```
 
-Fronteira de decisão da MLP real rasa
+#### Fronteira de decisão MLP real rasa
 
-```python
+```
 mlp.eval()
 with torch.no_grad():
     out_mesh_mlp = mlp(mesh_tensor)
@@ -342,9 +388,9 @@ plt.title("Fronteira de decisão da MLP real rasa (dados de teste sobrepostos)")
 plt.show()
 ```
 
-CVNN profunda
+#### CVNN profunda
 
-```python
+```
 class DeepCVNN(nn.Module):
     def __init__(self):
         super().__init__()
@@ -412,9 +458,9 @@ plt.title("Fronteira de decisão (Deep CVNN)")
 plt.show()
 ```
 
-MLP profunda
+#### MLP profunda
 
-```python
+```
 import torch.nn.functional as F
 
 class DeepMLP(nn.Module):
@@ -478,9 +524,9 @@ plt.title("Fronteira de decisão (Deep MLP)")
 plt.show()
 ```
 
-Comparação final em tabela (opcional, requer pandas)
+#### Comparação final em tabela
 
-```python
+```
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -505,4 +551,6 @@ plt.savefig("tabela_acuracias_finais.png", dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
-Pronto para usar! Modifique, adapte e use como quiser. Duvidas? Call me (por aqui mesmo) ou rodrigo.campos@embrapa.br
+## Contato
+
+Pronto para usar! Modifique, adapte e use como quiser. Dúvidas? Contate-me por aqui ou em rodrigo.campos@embrapa.br.
